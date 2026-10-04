@@ -3,7 +3,7 @@
 Use actual Gemma on the intended Windows PC, not tests.browser_server.
 
 1. Introduce the real family member/problem using their permission and words.
-2. Choose Hindi or Gujarati; describe a real, non-sensitive issue.
+2. Choose English, Hindi or Gujarati; describe a real, non-sensitive issue.
 3. Attach a screenshot with artificial private text; crop, zoom and cover it.
 4. Show understanding and correct a detail before confirming.
 5. Follow one appropriate step. Report an actual failed result if one occurs;
