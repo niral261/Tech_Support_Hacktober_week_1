@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Family Tech Support</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/translations.js" defer></script>
+    <script src="/editor.js" defer></script>
+    <script src="/history.js" defer></script>
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main" data-i18n="skip">Skip to help</a>
+    <header>
+      <a class="brand" href="/"
+        ><span class="mark" aria-hidden="true">f</span
+        ><span data-i18n="brand">Family Tech Support</span></a
+      >
+      <div class="language-control">
+        <label for="language" data-i18n="language">Language</label
+        ><select id="language">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+          <option value="gu">ગુજરાતી</option>
+        </select>
+      </div>
+    </header>
+    <main id="main">
+      <p id="startup-status" role="status">
+        Starting the app… If this message remains, stop the app, restart
+        start.bat from the latest extracted folder, and press Ctrl+F5.
+      </p>
+      <button type="button" id="open-history" data-i18n="previous">
+        Previous solutions
+      </button>
+      <section class="intro">
+        <p class="eyebrow" data-i18n="eyebrow">
+          A little help, one step at a time
+        </p>
+        <h1 data-i18n="heading">Let’s figure it out together.</h1>
+        <p class="lead" data-i18n="lead">
+          Show me what’s confusing. We’ll check that I understand, then try one
+          small step.
+        </p>
+      </section>
+      <ol class="progress" aria-label="Progress">
+        <li id="stage1" aria-current="step">
+          <span>1</span><span data-i18n="describe">Describe</span>
+        </li>
+        <li id="stage2">
+          <span>2</span><span data-i18n="review">Check understanding</span>
+        </li>
+        <li id="stage3">
+          <span>3</span><span data-i18n="try">Try one step</span>
+        </li>
+      </ol>
+      <div class="layout">
+        <section class="workspace card">
+          <h2 id="form-heading" data-i18n="happening">What’s happening?</h2>
+          <form id="help-form">
+            <label class="save-option"
+              ><input type="checkbox" id="save-history" checked />
+              <span data-i18n="savehistory"
+                >Save this chat on this PC</span
+              ></label
+            >
+            <p class="small" data-i18n="savehint">
+              Text is saved in a local database until you delete it. Screenshots
+              are never saved. Uncheck for a temporary chat.
+            </p>
+            <label for="device" data-i18n="device"
+              >Which device needs help?</label
+            ><select id="device">
+              <option value="Windows computer" data-i18n="windows">
+                Windows computer
+              </option>
+              <option value="Android phone" data-i18n="android">
+                Android phone
+              </option>
+              <option value="iPhone">iPhone</option>
+              <option value="Other device" data-i18n="other">
+                Other device
+              </option>
+            </select>
+            <label for="message" id="message-label" data-i18n="words"
+              >Tell me in your own words</label
+            ><textarea
+              id="message"
+              maxlength="1200"
+              rows="4"
+              required
+              aria-describedby="message-hint"
+            ></textarea>
+            <p class="small" id="message-hint" data-i18n="hint">
+              For example: My laptop won’t connect to Wi-Fi. Up to 1,200
+              characters.
+            </p>
+            <div class="upload-box">
+              <label for="screenshot" data-i18n="screenshot"
+                >Add a screenshot (optional)</label
+              >
+              <p class="small" data-i18n="imagehint">
+                PNG or JPEG, up to 5 MB. Crop and cover private details before
+                using it.
+              </p>
+              <input
+                type="file"
+                id="screenshot"
+                accept="image/png,image/jpeg"
+              />
+              <div id="preview-box" hidden>
+                <img id="preview" alt="" />
+                <p class="small" data-i18n="readyimage">
+                  Only this edited image will be sent.
+                </p>
+                <div class="button-row">
+                  <button type="button" id="edit-image" data-i18n="editimage">
+                    Edit screenshot</button
+                  ><button
+                    type="button"
+                    id="remove-image"
+                    data-i18n="removeimage"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+            <button
+              class="primary full"
+              id="send"
+              type="submit"
+              disabled
+              data-i18n="understand"
+            >
+              Help me understand this
+            </button>
+          </form>
+          <p id="busy" class="busy" role="status" hidden></p>
+          <p id="error" class="error" role="alert" hidden></p>
+        </section>
+        <aside class="sidebar">
+          <section class="card connection">
+            <div class="section-title">
+              <span
+                class="status-dot"
+                id="status-dot"
+                aria-hidden="true"
+              ></span>
+              <h2 data-i18n="local">Your local helper</h2>
+            </div>
+            <p id="connection-text" role="status"></p>
+            <button id="check-connection" type="button" data-i18n="connection">
+              Check connection
+            </button>
+            <p class="small">Gemma 3 · 4B</p>
+          </section>
+          <section class="privacy">
+            <h2 data-i18n="privacytitle">You’re in control</h2>
+            <p data-i18n="privacy">
+              Questions and edited screenshots go to Ollama on this computer.
+              This app does not save them to disk or send them to a cloud
+              service.
+            </p>
+            <p data-i18n="secrets">
+              Never include passwords, bank details or verification codes.
+            </p>
+          </section>
+        </aside>
+        <section class="card guidance" id="review-section" tabindex="-1" hidden>
+          <p class="eyebrow" data-i18n="before">Before we try anything</p>
+          <h2 data-i18n="understandingtitle">Did I understand correctly?</h2>
+          <p data-i18n="reviewhint">
+            Edit anything I got wrong. These fields will guide my first answer.
+          </p>
+          <form id="review-form">
+            <label for="problem" data-i18n="problem">Your problem</label
+            ><textarea id="problem" rows="3" maxlength="500" required></textarea
+            ><label for="evidence" data-i18n="evidence">What I noticed</label
+            ><textarea
+              id="evidence"
+              rows="3"
+              maxlength="500"
+              required
+            ></textarea
+            ><label for="uncertainty" data-i18n="uncertainty"
+              >What I’m unsure about</label
+            ><textarea
+              id="uncertainty"
+              rows="2"
+              maxlength="300"
+              required
+            ></textarea
+            ><button
+              class="primary"
+              id="confirm"
+              data-i18n="confirm"
+              type="submit"
+            >
+              This is correct — show a step
+            </button>
+          </form>
+        </section>
+        <section class="card guidance" id="answer-section" tabindex="-1" hidden>
+          <div class="section-title">
+            <h2 data-i18n="next">Your next step</h2>
+            <span class="tag" id="turn-count"></span>
+          </div>
+          <div id="answer" aria-live="polite"></div>
+          <p class="small" id="timing"></p>
+          <div id="feedback" class="button-row">
+            <button
+              class="primary"
+              type="button"
+              id="worked"
+              data-i18n="worked"
+            >
+              That worked!</button
+            ><button type="button" id="not-worked" data-i18n="failed">
+              It didn’t work</button
+            ><button type="button" id="clarify" data-i18n="unclear">
+              I need an explanation
+            </button>
+          </div>
+          <form id="failure-form" hidden>
+            <label for="failure-note" data-i18n="failurenote"
+              >What happened when you tried it?</label
+            ><textarea
+              id="failure-note"
+              rows="3"
+              maxlength="500"
+              required
+            ></textarea>
+            <p class="small" data-i18n="failurehint">
+              We’ll record this as failed before asking for a different step.
+            </p>
+            <div class="button-row">
+              <button
+                type="submit"
+                class="primary"
+                id="record-failure"
+                data-i18n="record"
+              >
+                Record and try another step</button
+              ><button type="button" id="cancel-failure" data-i18n="cancel">
+                Cancel
+              </button>
+            </div>
+          </form>
+          <p id="solved" class="solved" role="status" hidden data-i18n="solved">
+            You did it! This problem is marked solved.
+          </p>
+          <p id="limit-message" hidden role="status" data-i18n="limit">
+            We’ve reached ten replies. Start a new problem to continue.
+          </p>
+          <details open>
+            <summary data-i18n="history">Steps and results</summary>
+            <ol id="history-list" class="history"></ol>
+          </details>
+          <details>
+            <summary data-i18n="approved">Understanding you approved</summary>
+            <p id="approved-text"></p>
+          </details>
+        </section>
+      </div>
+      <div class="restart">
+        <button id="reset" type="button" hidden data-i18n="reset">
+          Start a new problem
+        </button>
+        <p id="language-hint" class="small" hidden data-i18n="languagehint">
+          Start a new problem to change the language.
+        </p>
+      </div>
+      <footer>
+        <p data-i18n="caution">
+          AI can misread a screen. Check each step before following it.
+        </p>
+        <p class="small" data-i18n="expiry">
+          Conversations expire after 30 minutes of inactivity. Start a new
+          problem to clear yours immediately.
+        </p>
+      </footer>
+    </main>
+    <dialog id="editor" aria-labelledby="editor-title">
+      <div class="editor-head">
+        <div>
+          <p class="eyebrow" data-i18n="privatefirst">Private details first</p>
+          <h2 id="editor-title" data-i18n="edittitle">
+            Prepare your screenshot
+          </h2>
+        </div>
+        <button id="close-editor" type="button" data-i18n="cancel">
+          Cancel
+        </button>
+      </div>
+      <p id="editor-help" data-i18n="editorhint">
+        Drag a rectangle, then crop or cover it. Zoom changes the view only. You
+        can also enter rectangle coordinates below.
+      </p>
+      <div class="editor-tools">
+        <label for="zoom" data-i18n="zoom">Zoom</label
+        ><input
+          id="zoom"
+          type="range"
+          min="50"
+          max="200"
+          step="10"
+          value="100"
+        /><output id="zoom-value">100%</output
+        ><button id="undo" type="button" data-i18n="undo">Undo</button>
+      </div>
+      <div class="canvas-viewport">
+        <canvas
+          id="edit-canvas"
+          aria-label="Screenshot selection area"
+        ></canvas>
+      </div>
+      <fieldset class="coordinates">
+        <legend data-i18n="rectangle">Rectangle in image pixels</legend>
+        <label>X <input id="rect-x" type="number" min="0" value="0" /></label
+        ><label>Y <input id="rect-y" type="number" min="0" value="0" /></label
+        ><label
+          ><span data-i18n="width">Width</span
+          ><input id="rect-w" type="number" min="1" value="1" /></label
+        ><label
+          ><span data-i18n="height">Height</span
+          ><input id="rect-h" type="number" min="1" value="1"
+        /></label>
+      </fieldset>
+      <div class="button-row">
+        <button id="crop" type="button" data-i18n="crop">
+          Crop to rectangle</button
+        ><button id="redact" type="button" data-i18n="redact">
+          Cover rectangle in black
+        </button>
+      </div>
+      <p id="editor-status" role="status" class="small"></p>
+      <p class="small" data-i18n="editorprivacy">
+        Black covers remove image pixels. Check the whole image for names and
+        codes. Cancelling keeps your previous screenshot.
+      </p>
+      <button
+        id="use-image"
+        type="button"
+        class="primary full"
+        data-i18n="useimage"
+      >
+        Use this edited screenshot
+      </button>
+    </dialog>
+    <dialog id="history-dialog" aria-labelledby="history-title">
+      <div class="editor-head">
+        <h2 id="history-title" data-i18n="previous">Previous solutions</h2>
+        <button id="close-history" type="button" data-i18n="close">
+          Close
+        </button>
+      </div>
+      <p class="small" data-i18n="historyprivacy">
+        Saved text stays on this PC until deleted. Starting a new problem does
+        not delete saved chats. Advice may not fit a new problem.
+      </p>
+      <form id="history-search-form">
+        <label for="history-query" data-i18n="searchhistory"
+          >Search saved chats</label
+        ><input id="history-query" maxlength="200" type="search" /><button
+          type="submit"
+          data-i18n="search"
+        >
+          Search
+        </button>
+      </form>
+      <p id="history-status" role="status"></p>
+      <ul id="saved-list"></ul>
+      <button id="history-more" type="button" hidden data-i18n="more">
+        Load more
+      </button>
+      <section id="saved-detail" tabindex="-1" hidden></section>
+    </dialog>
+  </body>
+</html>
