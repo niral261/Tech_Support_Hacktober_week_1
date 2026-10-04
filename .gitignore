@@ -6,3 +6,4 @@ screenshots/
 node_modules/
 tests/browser/artifacts/
 ./docs/
+docs/
